@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/scaffold_with_nav_bar.dart';
 
+import '../../features/onboarding/screens/welcome_screen.dart';
+
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'root');
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/discover',
+    initialLocation: '/welcome',
     routes: [
+      GoRoute(
+        path: '/welcome',
+        builder: (context, state) => const WelcomeScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return ScaffoldWithNavBar(navigationShell: navigationShell);
