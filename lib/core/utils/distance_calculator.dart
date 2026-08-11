@@ -1,0 +1,31 @@
+import 'dart:math' as math;
+
+/// Calculates great-circle distance between two geographic coordinates
+/// using the Haversine formula.
+class DistanceCalculator {
+  DistanceCalculator._();
+
+  static const double _earthRadiusKm = 6371.0;
+
+  /// Returns the distance in kilometers between ([lat1], [lon1]) and
+  /// ([lat2], [lon2]).
+  static double kilometresBetween(
+    double lat1,
+    double lon1,
+    double lat2,
+    double lon2,
+  ) {
+    final dLat = _toRad(lat2 - lat1);
+    final dLon = _toRad(lon2 - lon1);
+    final a =
+        math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(_toRad(lat1)) *
+            math.cos(_toRad(lat2)) *
+            math.sin(dLon / 2) *
+            math.sin(dLon / 2);
+    final c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    return _earthRadiusKm * c;
+  }
+
+  static double _toRad(double deg) => deg * (math.pi / 180.0);
+}
