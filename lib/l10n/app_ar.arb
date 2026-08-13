@@ -1,5 +1,16 @@
 {
   "@@locale": "ar",
   "welcomeTitle": "اعثر على جامعتك المثالية",
-  "start": "ابدأ الآن"
+  "start": "ابدأ الآن",
+  "summaryBody": "تم إعداد ملفك الشخصي! دعنا نبحث عن الجامعة المثالية لك.",
+  "selectedMajors": "التخصصات المختارة",
+  "searchUniversities": "ابحث عن جامعات",
+  "findUniversity": "ابحث عن جامعة",
+  "filterMajor": "التخصص",
+  "filterLocation": "الموقع",
+  "filterBudget": "الميزانية",
+  "filterScholarship": "منحة",
+  "filterDeadline": "الموعد النهائي",
+  "apply": "تطبيق",
+  "loadMore": "تحميل المزيد"
 }
