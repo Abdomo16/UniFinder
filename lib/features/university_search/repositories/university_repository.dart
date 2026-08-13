@@ -1,5 +1,6 @@
 import '../../../services/supabase_service.dart';
 import '../models/university_model.dart';
+import '../models/program_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UniversityRepository {
@@ -131,5 +132,39 @@ class UniversityRepository {
           .toList();
     }
     return mocks;
+  }
+
+  Future<List<ProgramModel>> fetchProgramsForUniversity(String universityId) async {
+    if (_useMockData) {
+      return [
+        ProgramModel(
+          id: 'p1',
+          universityId: universityId,
+          majorName: 'Computer Science',
+          majorNameAr: 'علوم الحاسب',
+          studyMode: 'Full-time',
+          languageOfInstruction: 'English',
+        ),
+        ProgramModel(
+          id: 'p2',
+          universityId: universityId,
+          majorName: 'Engineering',
+          majorNameAr: 'الهندسة',
+          studyMode: 'Full-time',
+          languageOfInstruction: 'English',
+        ),
+      ];
+    }
+    try {
+      final response = await SupabaseService.client
+          .from('programs')
+          .select()
+          .eq('university_id', universityId);
+      return (response as List)
+          .map((json) => ProgramModel.fromJson(json))
+          .toList();
+    } catch (e) {
+      return [];
+    }
   }
 }

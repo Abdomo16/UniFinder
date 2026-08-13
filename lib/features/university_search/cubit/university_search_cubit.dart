@@ -1,14 +1,22 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../onboarding/repositories/student_profile_repository.dart';
+import '../../fit_score/engine/fit_score_calculator.dart';
+import '../models/program_model.dart';
+import '../models/university_model.dart';
 import '../repositories/university_repository.dart';
 import 'university_search_state.dart';
 
 class UniversitySearchCubit extends Cubit<UniversitySearchState> {
-  UniversitySearchCubit({UniversityRepository? repository})
-    : _repository = repository ?? UniversityRepository(),
-      super(const UniversitySearchState());
+  UniversitySearchCubit({
+    UniversityRepository? repository,
+    StudentProfileRepository? profileRepository,
+  })  : _repository = repository ?? UniversityRepository(),
+        _profileRepository = profileRepository ?? StudentProfileRepository(),
+        super(const UniversitySearchState());
 
   final UniversityRepository _repository;
+  final StudentProfileRepository _profileRepository;
   Timer? _debounceTimer;
 
   Future<void> loadInitial() async {
@@ -78,14 +86,27 @@ class UniversitySearchCubit extends Cubit<UniversitySearchState> {
           )
           .timeout(const Duration(seconds: 10));
 
+      final profile = await _profileRepository.getProfile();
+      final updatedResults = <UniversityModel>[];
+
+      for (final uni in results) {
+        final programs = await _repository.fetchProgramsForUniversity(uni.id);
+        final fitResult = FitScoreCalculator.calculateFitScore(
+          profile: profile,
+          university: uni,
+          programs: programs,
+        );
+        updatedResults.add(uni.copyWith(fitScore: fitResult.overallScore));
+      }
+
       final hasMore = results.length == 10; // pageSize is 10
 
       emit(
         state.copyWith(
           status: UniversitySearchStatus.loaded,
           universities: page == 0
-              ? results
-              : [...state.universities, ...results],
+              ? updatedResults
+              : [...state.universities, ...updatedResults],
           currentPage: page,
           hasMore: hasMore,
         ),
