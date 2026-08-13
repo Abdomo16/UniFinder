@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../widgets/scaffold_with_nav_bar.dart';
 
 import '../../features/onboarding/screens/welcome_screen.dart';
+import '../../features/university_search/screens/search_screen.dart';
+import '../../features/university_search/screens/university_detail_screen.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -15,6 +17,11 @@ class AppRouter {
       GoRoute(
         path: '/welcome',
         builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: '/university_detail',
+        builder: (context, state) =>
+            UniversityDetailScreen(id: state.extra as String? ?? ''),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -36,8 +43,7 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: '/discover',
-                builder: (context, state) =>
-                    const Scaffold(body: Center(child: Text('Discover'))),
+                builder: (context, state) => const SearchScreen(),
               ),
             ],
           ),
