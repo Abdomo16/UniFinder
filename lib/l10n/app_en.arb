@@ -1,5 +1,16 @@
 {
   "@@locale": "en",
   "welcomeTitle": "Find your perfect university",
-  "start": "Get started"
+  "start": "Get started",
+  "summaryBody": "Your profile is set up! Let’s find the perfect university for you.",
+  "selectedMajors": "Selected Majors",
+  "searchUniversities": "Search universities",
+  "findUniversity": "Find a university",
+  "filterMajor": "Major",
+  "filterLocation": "Location",
+  "filterBudget": "Budget",
+  "filterScholarship": "Scholarship",
+  "filterDeadline": "Deadline",
+  "apply": "Apply",
+  "loadMore": "Load more"
 }
