@@ -18,4 +18,18 @@ class StudentProfileRepository {
     final preferences = await SharedPreferences.getInstance();
     return preferences.getBool(_completedKey) ?? false;
   }
+
+  Future<StudentProfileModel> getProfile() async {
+    final preferences = await SharedPreferences.getInstance();
+    final grade = preferences.getDouble('student_grade') ?? 80.0;
+    final budget = preferences.getDouble('student_budget') ?? 100000.0;
+    final location = preferences.getString('student_location') ?? '';
+    final majors = preferences.getStringList('student_majors') ?? const [];
+    return StudentProfileModel(
+      grade: grade,
+      yearlyBudget: budget,
+      location: location,
+      majors: majors,
+    );
+  }
 }

@@ -3,15 +3,24 @@
 class FitScoreWeights {
   FitScoreWeights._();
 
-  /// How much the grade / admission cutoff match contributes.
-  static const double grade = 0.40;
+  static const double academicEligibility = 0.30;
+  static const double tuitionAffordability = 0.20;
+  static const double majorAvailability = 0.15;
+  static const double distance = 0.15;
+  static const double universityTypePreference = 0.10;
+  static const double applicationDeadline = 0.05;
+  static const double scholarships = 0.05;
 
-  /// How much the yearly budget vs tuition match contributes.
-  static const double budget = 0.30;
+  /// Returns the sum of all weight factors.
+  static double get totalSum =>
+      academicEligibility +
+      tuitionAffordability +
+      majorAvailability +
+      distance +
+      universityTypePreference +
+      applicationDeadline +
+      scholarships;
 
-  /// How much the location / distance preference contributes.
-  static const double location = 0.15;
-
-  /// How much the available majors overlap contributes.
-  static const double majorMatch = 0.15;
+  /// Asserts that weights sum to exactly 1.0.
+  static bool get isValid => (totalSum - 1.0).abs() < 1e-9;
 }
